@@ -5,7 +5,9 @@ namespace ServiceStack.Contrib.Features.UptimeFeature.ServiceInterface
 {
     public class UptimeService : Service
     {
-        public object Any(Uptime request)
+        public UptimeService() { }
+
+        public UptimeResponse Any(Uptime request)
         {
             var startTime = ServiceStackHost.Instance.StartedAt;
             var endTime = DateTime.UtcNow.ToUniversalTime();

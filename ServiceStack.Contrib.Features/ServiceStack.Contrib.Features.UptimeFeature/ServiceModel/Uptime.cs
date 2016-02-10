@@ -1,7 +1,7 @@
 ﻿namespace ServiceStack.Contrib.Features.UptimeFeature.ServiceModel
 {
     [Route("/System/Uptime", Verbs = "GET")]
-    public class Uptime { }
+    public class Uptime : IReturn<UptimeResponse> { }
 
     public class UptimeResponse
     {
