@@ -1,0 +1,18 @@
+﻿<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>ServiceStack.Contrib.TestBase</id>
+    <title>ServiceStack.Contrib.TestBase</title>
+    <version>$version$</version>
+    <authors>Ryan Helms</authors>
+    <owners>Ryan Helms</owners>
+    <licenseUrl></licenseUrl>
+    <projectUrl></projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>UniTesting base classes and utilities</description>
+    <releaseNotes></releaseNotes>
+  </metadata>
+  <files>
+    <file src="bin\*.dll" target="bin" />
+  </files>
+</package>
