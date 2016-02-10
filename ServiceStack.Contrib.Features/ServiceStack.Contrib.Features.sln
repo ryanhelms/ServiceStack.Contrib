@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceStack.Contrib.Featur
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceStack.Contrib.Features.UptimeFeature.Tests", "ServiceStack.Contrib.Features.UptimeFeature.Tests\ServiceStack.Contrib.Features.UptimeFeature.Tests.csproj", "{2C777A8B-30D8-4066-8275-C9CBBC134F6A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceStack.Contrib.TestBase", "..\ServiceStack.Contrib.TestBase\ServiceStack.Contrib.TestBase.csproj", "{AB9B7B8D-8478-4312-A4BB-DB8B09238733}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{2C777A8B-30D8-4066-8275-C9CBBC134F6A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2C777A8B-30D8-4066-8275-C9CBBC134F6A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2C777A8B-30D8-4066-8275-C9CBBC134F6A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AB9B7B8D-8478-4312-A4BB-DB8B09238733}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AB9B7B8D-8478-4312-A4BB-DB8B09238733}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AB9B7B8D-8478-4312-A4BB-DB8B09238733}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AB9B7B8D-8478-4312-A4BB-DB8B09238733}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

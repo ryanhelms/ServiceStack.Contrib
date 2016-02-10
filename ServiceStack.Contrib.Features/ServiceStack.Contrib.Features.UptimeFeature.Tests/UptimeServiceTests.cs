@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ServiceStack.Contrib.Features.UptimeFeature.ServiceInterface;
+using ServiceStack.Contrib.TestBase;
 
 namespace ServiceStack.Contrib.Features.Uptime.Tests
 {
@@ -8,7 +9,7 @@ namespace ServiceStack.Contrib.Features.Uptime.Tests
     public class UptimeServiceTests : AppHostTestBase
     {
         public DateTime OriginalStartedAt => AppHost.StartedAt;
-        public UptimeService Target => Container.Resolve<UptimeService>();
+        public UptimeService Target => new UptimeService();
         
         [TestMethod]
         public void Should_return_valid_uptime_string_with_seconds()
@@ -21,6 +22,7 @@ namespace ServiceStack.Contrib.Features.Uptime.Tests
 
             // Assert
             Assert.IsTrue(response.Duration.Contains(" Second"));
+            Assert.IsFalse(response.Duration.Contains(" Minute"));
         }
 
         [TestMethod]
@@ -34,6 +36,7 @@ namespace ServiceStack.Contrib.Features.Uptime.Tests
 
             // Assert
             Assert.IsTrue(response.Duration.Contains(" Minute"));
+            Assert.IsFalse(response.Duration.Contains(" Hour"));
         }
 
         [TestMethod]
@@ -47,6 +50,7 @@ namespace ServiceStack.Contrib.Features.Uptime.Tests
 
             // Assert
             Assert.IsTrue(response.Duration.Contains(" Hour"));
+            Assert.IsFalse(response.Duration.Contains(" Day"));
         }
 
         [TestMethod]
