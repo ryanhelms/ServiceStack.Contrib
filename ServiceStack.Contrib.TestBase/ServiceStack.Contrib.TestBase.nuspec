@@ -6,8 +6,8 @@
     <version>$version$</version>
     <authors>Ryan Helms</authors>
     <owners>Ryan Helms</owners>
-    <licenseUrl></licenseUrl>
-    <projectUrl></projectUrl>
+    <licenseUrl>http://ryanhelms.io/nuget/license</licenseUrl>
+    <projectUrl>http://ryanhelms.io/servicestack</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>UnitTesting base classes and utilities</description>
     <releaseNotes></releaseNotes>
