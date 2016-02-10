@@ -9,7 +9,7 @@
     <licenseUrl></licenseUrl>
     <projectUrl></projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>UniTesting base classes and utilities</description>
+    <description>UnitTesting base classes and utilities</description>
     <releaseNotes></releaseNotes>
   </metadata>
   <files>
