@@ -1,0 +1,8 @@
+﻿<script language="javascript">
+
+    window.AppHost = window.AppHost || {};
+    window.AppHost.Uptime = function (fn) {
+        App.WebServices.Execute("Uptime", {}).then(fn);
+    }
+    
+</script>
