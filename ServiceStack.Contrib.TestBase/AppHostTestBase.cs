@@ -6,8 +6,8 @@ namespace ServiceStack.Contrib.TestBase
 {
     public class AppHostTestBase
     {
-        protected internal ServiceStackHost AppHost;
-        protected internal Container Container;
+        public ServiceStackHost AppHost;
+        public Container Container;
 
         public AppHostTestBase()
         {
