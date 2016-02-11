@@ -68,7 +68,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <Content Include="ServiceStack.Contrib.TestBase.nuspec">
+    <Content Include="TestBase.nuspec">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
