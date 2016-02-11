@@ -3,9 +3,19 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceStack.Contrib.Features.UptimeFeature", "ServiceStack.Contrib.Features.UptimeFeature\ServiceStack.Contrib.Features.UptimeFeature.csproj", "{E893E85F-2A37-43C9-80BC-1E5C99C345F8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UptimeFeature", "ServiceStack.Contrib.Features.UptimeFeature\UptimeFeature.csproj", "{E893E85F-2A37-43C9-80BC-1E5C99C345F8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceStack.Contrib.Features.UptimeFeature.Tests", "ServiceStack.Contrib.Features.UptimeFeature.Tests\ServiceStack.Contrib.Features.UptimeFeature.Tests.csproj", "{2C777A8B-30D8-4066-8275-C9CBBC134F6A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UptimeFeature.Tests", "ServiceStack.Contrib.Features.UptimeFeature.Tests\UptimeFeature.Tests.csproj", "{2C777A8B-30D8-4066-8275-C9CBBC134F6A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Uptime Feature", "Uptime Feature", "{6F50EDC5-B403-4B5B-997E-EC22D75F30AE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "VFS Feature", "VFS Feature", "{FB57E7F0-D1A4-4FE6-A1B8-871931B55B82}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Redis", "Redis", "{F1442C03-F157-41FC-B755-80BCBEB12D40}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sql Server", "Sql Server", "{4E893F39-CD00-4264-824F-549C595B091A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RedisVFSFeature", "RedisVFSFeature\RedisVFSFeature.csproj", "{C5911759-36FC-4C23-B2CE-A54BFF0B4AA8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,8 +31,19 @@ Global
 		{2C777A8B-30D8-4066-8275-C9CBBC134F6A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2C777A8B-30D8-4066-8275-C9CBBC134F6A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2C777A8B-30D8-4066-8275-C9CBBC134F6A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C5911759-36FC-4C23-B2CE-A54BFF0B4AA8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C5911759-36FC-4C23-B2CE-A54BFF0B4AA8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C5911759-36FC-4C23-B2CE-A54BFF0B4AA8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C5911759-36FC-4C23-B2CE-A54BFF0B4AA8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{E893E85F-2A37-43C9-80BC-1E5C99C345F8} = {6F50EDC5-B403-4B5B-997E-EC22D75F30AE}
+		{2C777A8B-30D8-4066-8275-C9CBBC134F6A} = {6F50EDC5-B403-4B5B-997E-EC22D75F30AE}
+		{F1442C03-F157-41FC-B755-80BCBEB12D40} = {FB57E7F0-D1A4-4FE6-A1B8-871931B55B82}
+		{4E893F39-CD00-4264-824F-549C595B091A} = {FB57E7F0-D1A4-4FE6-A1B8-871931B55B82}
+		{C5911759-36FC-4C23-B2CE-A54BFF0B4AA8} = {F1442C03-F157-41FC-B755-80BCBEB12D40}
 	EndGlobalSection
 EndGlobal
