@@ -61,6 +61,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Interfaces\IRedisVirtualFiles.cs" />
+    <Compile Include="Interfaces\IRedisVirtualPathProvider.cs" />
     <Compile Include="Providers\RedisVirtualPathProvider.cs" />
     <Compile Include="RedisVfsFeature.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

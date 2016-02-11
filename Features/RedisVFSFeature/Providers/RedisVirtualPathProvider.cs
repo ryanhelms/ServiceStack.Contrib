@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using ServiceStack.IO;
 using System.Collections;
+using ServiceStack.Contrib.Features.RedisVFSFeature.Interfaces;
+using System.IO;
 
 namespace ServiceStack.Contrib.Features.RedisVFSFeature.Providers
 {
-    public class RedisVirtualPathProvider : IVirtualPathProvider
+    public class RedisVirtualPathProvider : IRedisVirtualFiles
     {
         public string CombineVirtualPath(string basePath, string relativePath)
         {
@@ -88,6 +90,36 @@ namespace ServiceStack.Contrib.Features.RedisVFSFeature.Providers
         }
 
         IEnumerable<IVirtualDirectory> IVirtualPathProvider.GetRootDirectories()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void WriteFile(string filePath, string textContents)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void WriteFile(string filePath, Stream stream)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void WriteFiles(IEnumerable<IVirtualFile> files, Func<IVirtualFile, string> toPath = null)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DeleteFile(string filePath)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DeleteFiles(IEnumerable<string> filePaths)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DeleteFolder(string dirPath)
         {
             throw new NotImplementedException();
         }
