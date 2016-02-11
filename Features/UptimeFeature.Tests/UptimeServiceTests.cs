@@ -9,7 +9,7 @@ namespace ServiceStack.Contrib.Features.Uptime.Tests
     public class UptimeServiceTests : AppHostTestBase
     {
         public DateTime OriginalStartedAt => AppHost.StartedAt;
-        public UptimeService Target => new UptimeService();
+        public UptimeService SUT => new UptimeService();
         
         [TestMethod]
         public void Should_return_valid_uptime_string_with_seconds()
@@ -18,7 +18,7 @@ namespace ServiceStack.Contrib.Features.Uptime.Tests
             AppHost.StartedAt = OriginalStartedAt.Subtract(new TimeSpan(0, 0, 0, 30));
 
             // Act
-            var response = Target.Any(new UptimeFeature.ServiceModel.Uptime());
+            var response = SUT.Any(new UptimeFeature.ServiceModel.Uptime());
 
             // Assert
             Assert.IsTrue(response.Duration.Contains(" Second"));
@@ -32,7 +32,7 @@ namespace ServiceStack.Contrib.Features.Uptime.Tests
             AppHost.StartedAt = OriginalStartedAt.Subtract(new TimeSpan(0, 0, 1, 0));
 
             // Act
-            var response = Target.Any(new UptimeFeature.ServiceModel.Uptime());
+            var response = SUT.Any(new UptimeFeature.ServiceModel.Uptime());
 
             // Assert
             Assert.IsTrue(response.Duration.Contains(" Minute"));
@@ -46,7 +46,7 @@ namespace ServiceStack.Contrib.Features.Uptime.Tests
             AppHost.StartedAt = OriginalStartedAt.Subtract(new TimeSpan(0, 1, 0, 0));
 
             // Act
-            var response = Target.Any(new UptimeFeature.ServiceModel.Uptime());
+            var response = SUT.Any(new UptimeFeature.ServiceModel.Uptime());
 
             // Assert
             Assert.IsTrue(response.Duration.Contains(" Hour"));
@@ -60,7 +60,7 @@ namespace ServiceStack.Contrib.Features.Uptime.Tests
             AppHost.StartedAt = OriginalStartedAt.Subtract(new TimeSpan(1, 0, 0, 0));
 
             // Act
-            var response = Target.Any(new UptimeFeature.ServiceModel.Uptime());
+            var response = SUT.Any(new UptimeFeature.ServiceModel.Uptime());
 
             // Assert
             Assert.IsTrue(response.Duration.Contains(" Day"));

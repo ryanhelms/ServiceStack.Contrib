@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceStack.Contrib.TestBase", "ServiceStack.Contrib.TestBase.csproj", "{AB9B7B8D-8478-4312-A4BB-DB8B09238733}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestBase", "TestBase.csproj", "{AB9B7B8D-8478-4312-A4BB-DB8B09238733}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

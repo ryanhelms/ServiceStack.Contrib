@@ -102,7 +102,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ServiceStack.Contrib.Features.UptimeFeature\UptimeFeature.csproj">
+    <ProjectReference Include="..\UptimeFeature\UptimeFeature.csproj">
       <Project>{e893e85f-2a37-43c9-80bc-1e5c99c345f8}</Project>
       <Name>UptimeFeature</Name>
     </ProjectReference>
