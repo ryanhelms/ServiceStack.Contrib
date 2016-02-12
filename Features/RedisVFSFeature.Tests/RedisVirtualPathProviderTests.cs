@@ -5,8 +5,8 @@ using System.Threading;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ServiceStack.Contrib.Features.RedisVFSFeature;
-using ServiceStack.Contrib.TestBase;
 using ServiceStack.Contrib.Features.RedisVFSFeature.Providers;
+using ServiceStack.Contrib.Testing.MSTest;
 
 namespace RedisVFSFeature.Tests
 {
