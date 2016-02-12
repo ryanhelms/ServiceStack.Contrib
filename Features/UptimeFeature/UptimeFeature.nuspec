@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
-    <id>ServiceStack.Contrib.Testing</id>
-    <title>ServiceStack.Contrib.Testing</title>
+    <id>ServiceStack.Contrib.Features.UptimeFeature</id>
+    <title>ServiceStack.Contrib.Features.UptimeFeature</title>
     <version>$version$</version>
     <authors>Ryan Helms</authors>
     <owners>Ryan Helms</owners>
