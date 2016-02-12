@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<build-type xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" uuid="b1b239c4-09d5-4cca-b0c8-72ea5d73eafb" xsi:noNamespaceSchemaLocation="http://www.jetbrains.com/teamcity/schemas/9.0/project-config.xsd">
+  <name>TestBase</name>
+  <description />
+  <settings ref="ServiceStackContrib_Project">
+    <parameters />
+    <build-runners order="RUNNER_5, RUNNER_7, RUNNER_11, RUNNER_12">
+      <runner id="RUNNER_5" name="Get Build Number with short Git Hash" type="jetbrains_powershell">
+        <parameters>
+          <param name="jetbrains_powershell_bitness" value="x86" />
+          <param name="jetbrains_powershell_execution" value="PS1" />
+          <param name="jetbrains_powershell_script_code"><![CDATA[$BuildNumber = "%build.number%"
+$Hash = "%build.vcs.number%"
+$ShortHash = $Hash.substring(0,7)
+Write-Host "##teamcity[buildNumber '$BuildNumber.$ShortHash']"]]></param>
+          <param name="jetbrains_powershell_script_mode" value="CODE" />
+          <param name="teamcity.step.mode" value="default" />
+        </parameters>
+      </runner>
+      <runner id="RUNNER_7" name="" type="jb.nuget.installer">
+        <parameters>
+          <param name="nuget.noCache" value="true" />
+          <param name="nuget.path" value="?NuGet.CommandLine.DEFAULT.nupkg" />
+          <param name="nuget.updatePackages.mode" value="sln" />
+          <param name="nuget.use.restore" value="restore" />
+          <param name="nugetCustomPath" value="?NuGet.CommandLine.DEFAULT.nupkg" />
+          <param name="nugetPathSelector" value="?NuGet.CommandLine.DEFAULT.nupkg" />
+          <param name="sln.path" value="TestBase/TestBase.sln" />
+          <param name="teamcity.step.mode" value="default" />
+        </parameters>
+      </runner>
+      <runner id="RUNNER_11" name="" type="VS.Solution">
+        <parameters>
+          <param name="build-file-path" value="TestBase/TestBase.sln" />
+          <param name="msbuild.prop.Configuration" value="Release" />
+          <param name="msbuild_version" value="12.0" />
+          <param name="octopus_run_octopack" value="true" />
+          <param name="run-platform" value="x86" />
+          <param name="runnerArgs"><![CDATA[/p:OctoPackPublishPackageToHttp=http://octopus.mobacomm.com:8888/nuget/packages /p:OctoPackPublishApiKey=API-MGF7S5QPTJWXJLAYIYJ8UFP3ZUQ
+/p:OctoPackPackageVersion=%system.build.number% 
+/p:OctoPackPublishPackagesToTeamCity=true]]></param>
+          <param name="targets" value="Rebuild" />
+          <param name="teamcity.step.mode" value="default" />
+          <param name="toolsVersion" value="12.0" />
+          <param name="vs.version" value="vs2013" />
+        </parameters>
+      </runner>
+      <runner id="RUNNER_12" name="" type="octopus.create.release">
+        <parameters>
+          <param name="octopus_host" value="http://octopus.mobacomm.com:8888/" />
+          <param name="octopus_project_name" value="ServiceStack.Contrib.TestBase" />
+          <param name="octopus_releasenumber" value="%build.number%" />
+          <param name="octopus_version" value="3.0+" />
+          <param name="octopus_waitfordeployments" value="true" />
+          <param name="secure:octopus_apikey" value="zxx54d5a53b29fa80766827afd7c507d9db5e0cb51b5709b03bad51cfefd5b61037" />
+          <param name="teamcity.step.mode" value="default" />
+        </parameters>
+      </runner>
+    </build-runners>
+    <vcs-settings />
+    <requirements />
+    <build-triggers>
+      <build-trigger id="vcsTrigger" type="vcsTrigger">
+        <parameters>
+          <param name="groupCheckinsByCommitter" value="true" />
+          <param name="perCheckinTriggering" value="true" />
+          <param name="quietPeriodMode" value="DO_NOT_USE" />
+        </parameters>
+      </build-trigger>
+    </build-triggers>
+    <cleanup />
+  </settings>
+</build-type>
+
