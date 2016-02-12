@@ -1,41 +1,16 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Linq;
 using System.Threading;
-using Amazon.S3;
 using NUnit.Framework;
-using ServiceStack.Aws.S3;
+using ServiceStack;
 using ServiceStack.IO;
 using ServiceStack.Testing;
-using ServiceStack.Text;
 using ServiceStack.VirtualPath;
 
 namespace RedisVFSFeature.Tests
 {
     class RedisVirtualPathProviderTests
     {
-    }
-
-    {
-        public class S3VirtualPathProviderTests : VirtualPathProviderTests
-        {
-            private IAmazonS3 client = AwsConfig.CreateAmazonS3Client();
-            public const string BucketName = "ss-ci-test";
-
-            public override IVirtualPathProvider GetPathProvider()
-            {
-                return new S3VirtualPathProvider(client, BucketName, appHost);
-            }
-        }
-
-        public class InMemoryVirtualPathProviderTests : VirtualPathProviderTests
-        {
-            public override IVirtualPathProvider GetPathProvider()
-            {
-                return new InMemoryVirtualPathProvider(appHost);
-            }
-        }
-
         public class FileSystemVirtualPathProviderTests : VirtualPathProviderTests
         {
             private static string RootDir = "~/App_Data".MapProjectPath();
