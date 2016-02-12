@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<settings>
+  <project-graphs>
+    <graph title="New chart title" defaultFilters="" hideFilters="" id="customGraph1" seriesTitle="Series" format="duration">
+      <valueType key="BuildDuration" title="Build Duration (all stages)" sourceBuildTypeId="MobacommPlatform_Build" />
+    </graph>
+  </project-graphs>
+</settings>
+

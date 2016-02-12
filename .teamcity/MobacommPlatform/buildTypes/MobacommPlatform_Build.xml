@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<build-type xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" uuid="a530f0a8-a90b-46d2-9c19-b15d8262c7af" xsi:noNamespaceSchemaLocation="http://www.jetbrains.com/teamcity/schemas/9.0/project-config.xsd">
+  <name>Build</name>
+  <description />
+  <settings>
+    <options>
+      <option name="allowExternalStatus" value="true" />
+      <option name="buildNumberPattern" value="0.0.1.%build.vcs.number.MobacommPlatform_Main%" />
+    </options>
+    <parameters />
+    <build-runners>
+      <runner id="RUNNER_36" name="" type="jb.nuget.installer">
+        <parameters>
+          <param name="nuget.path" value="?NuGet.CommandLine.DEFAULT.nupkg" />
+          <param name="nuget.sources"><![CDATA[https://www.nuget.org/api/v2/
+http://teamcity.mobacomm.com:9999/guestAuth/app/nuget/v1/FeedService.svc/]]></param>
+          <param name="nuget.updatePackages" value="true" />
+          <param name="nuget.updatePackages.mode" value="perConfig" />
+          <param name="nuget.use.restore" value="restore" />
+          <param name="nugetCustomPath" value="?NuGet.CommandLine.DEFAULT.nupkg" />
+          <param name="nugetPathSelector" value="?NuGet.CommandLine.DEFAULT.nupkg" />
+          <param name="sln.path" value="Gateway/FifthDimension.Gateway.sln" />
+          <param name="teamcity.step.mode" value="default" />
+        </parameters>
+      </runner>
+      <runner id="RUNNER_37" name="" type="VS.Solution">
+        <parameters>
+          <param name="build-file-path" value="Gateway/FifthDimension.Gateway.UI/FifthDimension.Gateway.UI.csproj" />
+          <param name="msbuild.prop.Configuration" value="Debug" />
+          <param name="msbuild_version" value="12.0" />
+          <param name="run-platform" value="x86" />
+          <param name="runnerArgs" value="/p:GenerateVersionNumber=true" />
+          <param name="targets" value="Rebuild" />
+          <param name="teamcity.step.mode" value="default" />
+          <param name="toolsVersion" value="12.0" />
+          <param name="vs.version" value="vs2013" />
+        </parameters>
+      </runner>
+      <runner id="RUNNER_38" name="" type="{47497b2b-4c0f-4117-8da7-f745d6cf2f12}">
+        <parameters>
+          <param name="build.redGate.dlmDashboardEnabled" value="true" />
+          <param name="build.redGate.dlmDashboardHost" value="localhost" />
+          <param name="build.redGate.dlmDashboardPort" value="19528" />
+          <param name="build.redGate.sourceScriptsFolder" value="Gateway\Database\Objects\" />
+          <param name="build.redGate.sourceScriptsFolderRadio" value="build.redGate.sourceScriptsFolderVcsSubfolder" />
+          <param name="build.redGate.sqlDocEnabled" value="true" />
+          <param name="common.redGate.auth.type" value="common.redGate.use.windows.auth" />
+          <param name="common.redGate.package.id" value="FifthDimension.Gateway.Database" />
+          <param name="common.use.local.db" value="common.local.db" />
+          <param name="teamcity.step.mode" value="default" />
+        </parameters>
+      </runner>
+      <runner id="RUNNER_39" name="New build step" type="VS.Solution">
+        <parameters>
+          <param name="build-file-path" value="Gateway/FifthDimension.Gateway.UI/FifthDimension.Gateway.UI.csproj" />
+          <param name="msbuild.prop.Configuration" value="Debug" />
+          <param name="msbuild_version" value="12.0" />
+          <param name="octopus_run_octopack" value="true" />
+          <param name="run-platform" value="x86" />
+          <param name="runnerArgs"><![CDATA[/p:OctoPackPublishPackageToHttp=http://octopus.mobacomm.com:8888/nuget/packages /p:OctoPackPublishApiKey=API-MGF7S5QPTJWXJLAYIYJ8UFP3ZUQ
+/p:OctoPackPackageVersion=%system.build.number% 
+/p:OctoPackPublishPackagesToTeamCity=True
+/p:OctoPackEnforceAddingFiles=true]]></param>
+          <param name="targets" value="Build" />
+          <param name="teamcity.step.mode" value="default" />
+          <param name="toolsVersion" value="12.0" />
+          <param name="vs.version" value="vs2013" />
+        </parameters>
+      </runner>
+    </build-runners>
+    <vcs-settings>
+      <vcs-entry-ref root-id="MobacommPlatform_Main">
+        <checkout-rule rule="-:Platform/" />
+        <checkout-rule rule="+:Libraries/ =&gt; Libraries/" />
+        <checkout-rule rule="+:Gateway/  =&gt; Gateway/" />
+      </vcs-entry-ref>
+    </vcs-settings>
+    <requirements />
+    <build-triggers />
+    <build-extensions>
+      <extension id="JetBrains.AssemblyInfo" type="JetBrains.AssemblyInfo">
+        <parameters>
+          <param name="assembly-format" value="%build.number%" />
+          <param name="patch-global-assembly-info" value="true" />
+        </parameters>
+      </extension>
+    </build-extensions>
+    <cleanup />
+  </settings>
+</build-type>
+

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<template xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" uuid="8e7e0e35-049d-4fc9-a684-597a8b7ae160" xsi:noNamespaceSchemaLocation="http://www.jetbrains.com/teamcity/schemas/9.0/project-config.xsd">
+  <name>Project</name>
+  <settings>
+    <options>
+      <option name="buildNumberPattern" value="0.0.{0}" />
+    </options>
+    <parameters />
+    <build-runners />
+    <vcs-settings>
+      <vcs-entry-ref root-id="ServiceStackContrib_HttpsGithubComRyanhelmsServiceStackContribGit" />
+    </vcs-settings>
+    <requirements />
+    <build-triggers />
+    <build-extensions>
+      <extension id="BUILD_EXT_3" type="teamcity.github.status">
+        <parameters>
+          <param name="github_report_on" value="on start and finish" />
+          <param name="guthub_authentication_type" value="password" />
+          <param name="guthub_context" value="continuous-integration/teamcity" />
+          <param name="guthub_guest" value="true" />
+          <param name="guthub_host" value="https://api.github.com" />
+          <param name="guthub_owner" value="ryanhelms" />
+          <param name="guthub_repo" value="ServiceStack.Contrib" />
+          <param name="guthub_username" value="ryanhelms" />
+          <param name="secure:guthub_username" value="zxx3bf834275cd363f9775d03cbe80d301b" />
+        </parameters>
+      </extension>
+    </build-extensions>
+    <cleanup />
+  </settings>
+</template>
+

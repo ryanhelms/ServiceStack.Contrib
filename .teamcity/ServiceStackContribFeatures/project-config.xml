@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" parent-id="ServiceStackContrib" uuid="a06aea80-64e4-4495-af4e-fa2c34f1b7f4" xsi:noNamespaceSchemaLocation="http://www.jetbrains.com/teamcity/schemas/9.0/project-config.xsd">
+  <name>Features</name>
+  <description>ServiceStack.NET Feature Contributions</description>
+  <parameters />
+  <cleanup />
+</project>
+
