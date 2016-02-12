@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ServiceStack.Contrib.Features.UptimeFeature.ServiceInterface;
 using ServiceStack.Contrib.TestBase;
+using ServiceStack.Contrib.TestBase.MSTest;
 
 namespace ServiceStack.Contrib.Features.Uptime.Tests
 {
