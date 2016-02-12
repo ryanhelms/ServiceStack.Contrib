@@ -2,7 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ServiceStack.Testing;
 
-namespace ServiceStack.Contrib.TestBase
+namespace ServiceStack.Contrib.TestBase.MSTest
 {
     public class AppHostTestBase
     {

@@ -67,9 +67,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AppHostTestBase.cs" />
+    <Compile Include="MSTest\AppHostTestBase.cs" />
+    <Compile Include="NUnit\AppHostTestBase.cs" />
+    <Compile Include="NUnit\VirtualPathProviderTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="VirtualPathProviderTests.cs" />
+    <Compile Include="MSTest\VirtualPathProviderTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="TestBase.nuspec">
