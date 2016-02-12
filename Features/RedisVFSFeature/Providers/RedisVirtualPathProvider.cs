@@ -4,11 +4,23 @@ using ServiceStack.IO;
 using System.Collections;
 using ServiceStack.Contrib.Features.RedisVFSFeature.Interfaces;
 using System.IO;
+using System.Text;
+using ServiceStack.Redis;
+using ServiceStack.VirtualPath;
 
 namespace ServiceStack.Contrib.Features.RedisVFSFeature.Providers
 {
     public class RedisVirtualPathProvider : IRedisVirtualFiles
     {
+        public IRedisClient Client => HostContext.Container.Resolve<IRedisClient>();
+
+        private IAppHost appHost; 
+
+        public RedisVirtualPathProvider(IAppHost appHost)
+        {
+            this.appHost = appHost as ServiceStackHost;
+        }
+
         public string CombineVirtualPath(string basePath, string relativePath)
         {
             throw new System.NotImplementedException();
@@ -26,7 +38,13 @@ namespace ServiceStack.Contrib.Features.RedisVFSFeature.Providers
 
         public IVirtualFile GetFile(string virtualPath)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
+            var fileContents = Client.GetValueFromHash("Files", virtualPath);
+            /*
+            return new InMemoryVirtualFile()
+            {
+                
+            }*/
         }
 
         public string GetFileHash(string virtualPath)
@@ -96,12 +114,16 @@ namespace ServiceStack.Contrib.Features.RedisVFSFeature.Providers
 
         public void WriteFile(string filePath, string textContents)
         {
-            throw new NotImplementedException();
+            Client.SetEntryInHash("Files", filePath, textContents);
         }
 
         public void WriteFile(string filePath, Stream stream)
         {
-            throw new NotImplementedException();
+            stream.Position = 0;
+            using (StreamReader reader = new StreamReader(stream, Encoding.UTF8))
+            {
+                Client.SetEntryInHash("Files", filePath, reader.ReadToEnd());
+            }
         }
 
         public void WriteFiles(IEnumerable<IVirtualFile> files, Func<IVirtualFile, string> toPath = null)

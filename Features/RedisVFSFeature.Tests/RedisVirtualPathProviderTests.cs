@@ -1,199 +1,153 @@
-﻿using System;
-using System.IO;
-using System.Linq;
-using System.Threading;
-using Amazon.S3;
-using NUnit.Framework;
-using ServiceStack.Aws.S3;
-using ServiceStack.IO;
-using ServiceStack.Testing;
-using ServiceStack.Text;
+﻿using ServiceStack.IO;
 using ServiceStack.VirtualPath;
+using ServiceStack;
+using System.Threading;
+using System.Linq;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using ServiceStack.Contrib.Features.RedisVFSFeature;
+using ServiceStack.Contrib.TestBase;
+using ServiceStack.Contrib.Features.RedisVFSFeature.Providers;
 
 namespace RedisVFSFeature.Tests
 {
-    class RedisVirtualPathProviderTests
+    [TestClass]
+    public class RedisVirtualPathProviderTests : AppHostTestBase
     {
-    }
-
-    {
-        public class S3VirtualPathProviderTests : VirtualPathProviderTests
+        public RedisVirtualPathProviderTests()
         {
-            private IAmazonS3 client = AwsConfig.CreateAmazonS3Client();
-            public const string BucketName = "ss-ci-test";
+            var redisVfsFeature = new RedisVfsFeature();
 
-            public override IVirtualPathProvider GetPathProvider()
-            {
-                return new S3VirtualPathProvider(client, BucketName, appHost);
-            }
+            AppHost.Plugins.Add(redisVfsFeature);
+
+            redisVfsFeature.Register(AppHost);
         }
 
-        public class InMemoryVirtualPathProviderTests : VirtualPathProviderTests
+        public IVirtualPathProvider GetPathProvider()
         {
-            public override IVirtualPathProvider GetPathProvider()
-            {
-                return new InMemoryVirtualPathProvider(appHost);
-            }
+            return new RedisVirtualPathProvider(AppHost);
+        }
+   
+        [TestMethod]
+        public void Can_create_file()
+        {
+            var pathProvider = GetPathProvider();
+
+            var filePath = "dir/file.txt";
+            pathProvider.WriteFile(filePath, "file");
+
+            var file = pathProvider.GetFile(filePath);
+
+            Assert.IsTrue(file.ReadAllText() == "file");
+            Assert.IsTrue(file.ReadAllText() == "file"); //can read twice
+
+            Assert.IsTrue(file.VirtualPath == filePath);
+            Assert.IsTrue(file.Name == "file.txt");
+            Assert.IsTrue(file.Directory.Name == "dir");
+            Assert.IsTrue(file.Directory.VirtualPath == "dir");
+            Assert.IsTrue(file.Extension == "txt");
+
+            Assert.IsTrue(file.Directory.Name == "dir");
+
+            pathProvider.DeleteFolder("dir");
         }
 
-        public class FileSystemVirtualPathProviderTests : VirtualPathProviderTests
+        [TestMethod]
+        public void Does_refresh_LastModified()
         {
-            private static string RootDir = "~/App_Data".MapProjectPath();
+            var pathProvider = GetPathProvider();
 
-            public FileSystemVirtualPathProviderTests()
+            var filePath = "dir/file.txt";
+            pathProvider.WriteFile(filePath, "file1");
+
+            var file = pathProvider.GetFile(filePath);
+            var prevLastModified = file.LastModified;
+
+            file.Refresh();
+            Assert.IsTrue(file.LastModified ==prevLastModified);
+
+            pathProvider.WriteFile(filePath, "file2");
+            file.Refresh();
+
+            if (file.GetType().Name == "S3VirtualFile" && file.LastModified == prevLastModified)
             {
-                if (!Directory.Exists(RootDir))
-                    Directory.CreateDirectory(RootDir);
-            }
-
-            public override IVirtualPathProvider GetPathProvider()
-            {
-                return new FileSystemVirtualPathProvider(appHost, RootDir);
-            }
-        }
-
-        [TestFixture]
-        public abstract class VirtualPathProviderTests
-        {
-            public abstract IVirtualPathProvider GetPathProvider();
-
-            protected ServiceStackHost appHost;
-
-            [TestFixtureSetUp]
-            public void TestFixtureSetUp()
-            {
-                appHost = new BasicAppHost()
-                    .Init();
-            }
-
-            [TestFixtureTearDown]
-            public void TestFixtureTearDown()
-            {
-                appHost.Dispose();
-            }
-
-            [Test]
-            public void Can_create_file()
-            {
-                var pathProvider = GetPathProvider();
-
-                var filePath = "dir/file.txt";
-                pathProvider.WriteFile(filePath, "file");
-
-                var file = pathProvider.GetFile(filePath);
-
-                Assert.That(file.ReadAllText(), Is.EqualTo("file"));
-                Assert.That(file.ReadAllText(), Is.EqualTo("file")); //can read twice
-
-                Assert.That(file.VirtualPath, Is.EqualTo(filePath));
-                Assert.That(file.Name, Is.EqualTo("file.txt"));
-                Assert.That(file.Directory.Name, Is.EqualTo("dir"));
-                Assert.That(file.Directory.VirtualPath, Is.EqualTo("dir"));
-                Assert.That(file.Extension, Is.EqualTo("txt"));
-
-                Assert.That(file.Directory.Name, Is.EqualTo("dir"));
-
-                pathProvider.DeleteFolder("dir");
-            }
-
-            [Test]
-            public void Does_refresh_LastModified()
-            {
-                var pathProvider = GetPathProvider();
-
-                var filePath = "dir/file.txt";
-                pathProvider.WriteFile(filePath, "file1");
-
-                var file = pathProvider.GetFile(filePath);
-                var prevLastModified = file.LastModified;
-
+                Thread.Sleep(1000);
+                pathProvider.WriteFile(filePath, "file3");
                 file.Refresh();
-                Assert.That(file.LastModified, Is.EqualTo(prevLastModified));
-
-                pathProvider.WriteFile(filePath, "file2");
-                file.Refresh();
-
-                if (file.GetType().Name == "S3VirtualFile" && file.LastModified == prevLastModified)
-                {
-                    Thread.Sleep(1000);
-                    pathProvider.WriteFile(filePath, "file3");
-                    file.Refresh();
-                }
-
-                Assert.That(file.LastModified, Is.Not.EqualTo(prevLastModified));
-
-                pathProvider.DeleteFolder("dir");
             }
 
-            [Test]
-            public void Can_create_file_from_root()
+            Assert.IsTrue(file.LastModified !=(prevLastModified));
+
+            pathProvider.DeleteFolder("dir");
+        }
+
+        [TestMethod]
+        public void Can_create_file_from_root()
+        {
+            var pathProvider = GetPathProvider();
+
+            var filePath = "file.txt";
+            pathProvider.WriteFile(filePath, "file");
+
+            var file = pathProvider.GetFile(filePath);
+
+            Assert.IsTrue(file.ReadAllText() == "file");
+            Assert.IsTrue(file.Name ==filePath);
+            Assert.IsTrue(file.Extension == "txt");
+
+            Assert.IsTrue(file.Directory.VirtualPath == null);
+            Assert.IsTrue(file.Directory.Name == null || file.Directory.Name == "App_Data");
+
+            pathProvider.DeleteFiles(new[] { "file.txt" });
+        }
+
+        [TestMethod]
+        public void Does_override_existing_file()
+        {
+            var pathProvider = GetPathProvider();
+
+            pathProvider.WriteFile("file.txt", "original");
+            pathProvider.WriteFile("file.txt", "updated");
+            Assert.IsTrue(pathProvider.GetFile("file.txt").ReadAllText() == "updated");
+
+            pathProvider.WriteFile("/a/file.txt", "original");
+            pathProvider.WriteFile("/a/file.txt", "updated");
+            Assert.IsTrue(pathProvider.GetFile("/a/file.txt").ReadAllText() == "updated");
+
+            pathProvider.DeleteFiles(new[] { "file.txt", "/a/file.txt" });
+            pathProvider.DeleteFolder("a");
+        }
+
+        [TestMethod]
+        public void Can_view_files_in_Directory()
+        {
+            var pathProvider = GetPathProvider();
+
+            var testdirFileNames = new[]
             {
-                var pathProvider = GetPathProvider();
-
-                var filePath = "file.txt";
-                pathProvider.WriteFile(filePath, "file");
-
-                var file = pathProvider.GetFile(filePath);
-
-                Assert.That(file.ReadAllText(), Is.EqualTo("file"));
-                Assert.That(file.Name, Is.EqualTo(filePath));
-                Assert.That(file.Extension, Is.EqualTo("txt"));
-
-                Assert.That(file.Directory.VirtualPath, Is.Null);
-                Assert.That(file.Directory.Name, Is.Null.Or.EqualTo("App_Data"));
-
-                pathProvider.DeleteFiles(new[] { "file.txt" });
-            }
-
-            [Test]
-            public void Does_override_existing_file()
-            {
-                var pathProvider = GetPathProvider();
-
-                pathProvider.WriteFile("file.txt", "original");
-                pathProvider.WriteFile("file.txt", "updated");
-                Assert.That(pathProvider.GetFile("file.txt").ReadAllText(), Is.EqualTo("updated"));
-
-                pathProvider.WriteFile("/a/file.txt", "original");
-                pathProvider.WriteFile("/a/file.txt", "updated");
-                Assert.That(pathProvider.GetFile("/a/file.txt").ReadAllText(), Is.EqualTo("updated"));
-
-                pathProvider.DeleteFiles(new[] { "file.txt", "/a/file.txt" });
-                pathProvider.DeleteFolder("a");
-            }
-
-            [Test]
-            public void Can_view_files_in_Directory()
-            {
-                var pathProvider = GetPathProvider();
-
-                var testdirFileNames = new[]
-                {
                 "testdir/a.txt",
                 "testdir/b.txt",
                 "testdir/c.txt",
             };
 
-                testdirFileNames.Each(x => pathProvider.WriteFile(x, "textfile"));
+            testdirFileNames.Each(x => pathProvider.WriteFile(x, "textfile"));
 
-                var testdir = pathProvider.GetDirectory("testdir");
-                var filePaths = testdir.Files.Map(x => x.VirtualPath);
+            var testdir = pathProvider.GetDirectory("testdir");
+            var filePaths = testdir.Files.Map(x => x.VirtualPath);
 
-                Assert.That(filePaths, Is.EquivalentTo(testdirFileNames));
+            Assert.IsTrue(filePaths.ToList() == testdirFileNames.ToList());
 
-                var fileNames = testdir.Files.Map(x => x.Name);
-                Assert.That(fileNames, Is.EquivalentTo(testdirFileNames.Map(x =>
-                    x.SplitOnLast('/').Last())));
+            var fileNames = testdir.Files.Map(x => x.Name);
+            Assert.IsTrue(fileNames == testdirFileNames.Map(x => x.SplitOnLast('/').Last()));
 
-                pathProvider.DeleteFolder("testdir");
-            }
+            pathProvider.DeleteFolder("testdir");
+        }
 
-            [Test]
-            public void Does_resolve_nested_files_and_folders()
-            {
-                var pathProvider = GetPathProvider();
+        [TestMethod]
+        public void Does_resolve_nested_files_and_folders()
+        {
+            var pathProvider = GetPathProvider();
 
-                var allFilePaths = new[] {
+            var allFilePaths = new[] {
                 "testfile.txt",
                 "a/testfile-a1.txt",
                 "a/testfile-a2.txt",
@@ -205,26 +159,26 @@ namespace RedisVFSFeature.Tests
                 "e/testfile-e1.txt",
             };
 
-                allFilePaths.Each(x => pathProvider.WriteFile(x, x.SplitOnLast('.').First().SplitOnLast('/').Last()));
+            allFilePaths.Each(x => pathProvider.WriteFile(x, x.SplitOnLast('.').First().SplitOnLast('/').Last()));
 
-                Assert.That(allFilePaths.All(x => pathProvider.IsFile(x)));
-                Assert.That(new[] { "a", "a/b", "a/b/c", "a/d", "e" }.All(x => pathProvider.IsDirectory(x)));
+            Assert.IsTrue(allFilePaths.All(x => pathProvider.IsFile(x)));
+            Assert.IsTrue(new[] { "a", "a/b", "a/b/c", "a/d", "e" }.All(x => pathProvider.IsDirectory(x)));
 
-                Assert.That(!pathProvider.IsFile("notfound.txt"));
-                Assert.That(!pathProvider.IsFile("a/notfound.txt"));
-                Assert.That(!pathProvider.IsDirectory("f"));
-                Assert.That(!pathProvider.IsDirectory("a/f"));
-                Assert.That(!pathProvider.IsDirectory("testfile.txt"));
-                Assert.That(!pathProvider.IsDirectory("a/testfile-a1.txt"));
+            Assert.IsTrue(!pathProvider.IsFile("notfound.txt"));
+            Assert.IsTrue(!pathProvider.IsFile("a/notfound.txt"));
+            Assert.IsTrue(!pathProvider.IsDirectory("f"));
+            Assert.IsTrue(!pathProvider.IsDirectory("a/f"));
+            Assert.IsTrue(!pathProvider.IsDirectory("testfile.txt"));
+            Assert.IsTrue(!pathProvider.IsDirectory("a/testfile-a1.txt"));
 
-                AssertContents(pathProvider.RootDirectory, new[] {
+            AssertContents(pathProvider.RootDirectory, new[] {
                     "testfile.txt",
                 }, new[] {
                     "a",
                     "e"
                 });
 
-                AssertContents(pathProvider.GetDirectory("a"), new[] {
+            AssertContents(pathProvider.GetDirectory("a"), new[] {
                     "a/testfile-a1.txt",
                     "a/testfile-a2.txt",
                 }, new[] {
@@ -232,74 +186,71 @@ namespace RedisVFSFeature.Tests
                     "a/d"
                 });
 
-                AssertContents(pathProvider.GetDirectory("a/b"), new[] {
+            AssertContents(pathProvider.GetDirectory("a/b"), new[] {
                     "a/b/testfile-ab1.txt",
                     "a/b/testfile-ab2.txt",
                 }, new[] {
                     "a/b/c"
                 });
 
-                AssertContents(pathProvider.GetDirectory("a").GetDirectory("b"), new[] {
+            AssertContents(pathProvider.GetDirectory("a").GetDirectory("b"), new[] {
                     "a/b/testfile-ab1.txt",
                     "a/b/testfile-ab2.txt",
                 }, new[] {
                     "a/b/c"
                 });
 
-                AssertContents(pathProvider.GetDirectory("a/b/c"), new[] {
+            AssertContents(pathProvider.GetDirectory("a/b/c"), new[] {
                     "a/b/c/testfile-abc1.txt",
                     "a/b/c/testfile-abc2.txt",
                 }, new string[0]);
 
-                AssertContents(pathProvider.GetDirectory("a/d"), new[] {
+            AssertContents(pathProvider.GetDirectory("a/d"), new[] {
                     "a/d/testfile-ad1.txt",
                 }, new string[0]);
 
-                AssertContents(pathProvider.GetDirectory("e"), new[] {
+            AssertContents(pathProvider.GetDirectory("e"), new[] {
                     "e/testfile-e1.txt",
                 }, new string[0]);
 
-                Assert.That(pathProvider.GetFile("a/b/c/testfile-abc1.txt").ReadAllText(), Is.EqualTo("testfile-abc1"));
-                Assert.That(pathProvider.GetDirectory("a").GetFile("b/c/testfile-abc1.txt").ReadAllText(), Is.EqualTo("testfile-abc1"));
-                Assert.That(pathProvider.GetDirectory("a/b").GetFile("c/testfile-abc1.txt").ReadAllText(), Is.EqualTo("testfile-abc1"));
-                Assert.That(pathProvider.GetDirectory("a").GetDirectory("b").GetDirectory("c").GetFile("testfile-abc1.txt").ReadAllText(), Is.EqualTo("testfile-abc1"));
+            Assert.IsTrue(pathProvider.GetFile("a/b/c/testfile-abc1.txt").ReadAllText() == "testfile-abc1");
+            Assert.IsTrue(pathProvider.GetDirectory("a").GetFile("b/c/testfile-abc1.txt").ReadAllText() == "testfile-abc1");
+            Assert.IsTrue(pathProvider.GetDirectory("a/b").GetFile("c/testfile-abc1.txt").ReadAllText() == "testfile-abc1");
+            Assert.IsTrue(pathProvider.GetDirectory("a").GetDirectory("b").GetDirectory("c").GetFile("testfile-abc1.txt").ReadAllText() == "testfile-abc1");
 
-                var dirs = pathProvider.RootDirectory.Directories.Map(x => x.VirtualPath);
-                Assert.That(dirs, Is.EquivalentTo(new[] { "a", "e" }));
+            var dirs = pathProvider.RootDirectory.Directories.Map(x => x.VirtualPath);
+            Assert.IsTrue(dirs == new[] { "a", "e" }.ToList());
 
-                var rootDirFiles = pathProvider.RootDirectory.GetAllMatchingFiles("*", 1).Map(x => x.VirtualPath);
-                Assert.That(rootDirFiles, Is.EquivalentTo(new[] { "testfile.txt" }));
+            var rootDirFiles = pathProvider.RootDirectory.GetAllMatchingFiles("*", 1).Map(x => x.VirtualPath);
+            Assert.IsTrue(rootDirFiles == new[] { "testfile.txt" }.ToList());
 
-                var allFiles = pathProvider.GetAllMatchingFiles("*").Map(x => x.VirtualPath);
-                Assert.That(allFiles, Is.EquivalentTo(allFilePaths));
+            var allFiles = pathProvider.GetAllMatchingFiles("*").Map(x => x.VirtualPath);
+            Assert.IsTrue(allFiles == allFilePaths.ToList());
 
-                allFiles = pathProvider.GetAllFiles().Map(x => x.VirtualPath);
-                Assert.That(allFiles, Is.EquivalentTo(allFilePaths));
+            allFiles = pathProvider.GetAllFiles().Map(x => x.VirtualPath);
+            Assert.IsTrue(allFiles == allFilePaths.ToList());
 
-                pathProvider.DeleteFile("testfile.txt");
-                pathProvider.DeleteFolder("a");
-                pathProvider.DeleteFolder("e");
+            pathProvider.DeleteFile("testfile.txt");
+            pathProvider.DeleteFolder("a");
+            pathProvider.DeleteFolder("e");
 
-                Assert.That(pathProvider.GetAllFiles().ToList().Count, Is.EqualTo(0));
-            }
+            Assert.IsTrue(pathProvider.GetAllFiles().ToList().Count ==0);
+        }
 
-            public void AssertContents(IVirtualDirectory dir,
-                string[] expectedFilePaths, string[] expectedDirPaths)
-            {
-                var filePaths = dir.Files.Map(x => x.VirtualPath);
-                Assert.That(filePaths, Is.EquivalentTo(expectedFilePaths));
+        public void AssertContents(IVirtualDirectory dir, string[] expectedFilePaths, string[] expectedDirPaths)
+        {
+            var filePaths = dir.Files.Map(x => x.VirtualPath);
+            Assert.IsTrue(filePaths == expectedFilePaths.ToList());
 
-                var fileNames = dir.Files.Map(x => x.Name);
-                Assert.That(fileNames, Is.EquivalentTo(expectedFilePaths.Map(x =>
-                    x.SplitOnLast('/').Last())));
+            var fileNames = dir.Files.Map(x => x.Name);
+            Assert.IsTrue(fileNames == expectedFilePaths.Map(x => x.SplitOnLast('/').Last()));
 
-                var dirPaths = dir.Directories.Map(x => x.VirtualPath);
-                Assert.That(dirPaths, Is.EquivalentTo(expectedDirPaths));
+            var dirPaths = dir.Directories.Map(x => x.VirtualPath);
+            Assert.IsTrue(dirPaths == expectedDirPaths.ToList());
 
-                var dirNames = dir.Directories.Map(x => x.Name);
-                Assert.That(dirNames, Is.EquivalentTo(expectedDirPaths.Map(x =>
-                    x.SplitOnLast('/').Last())));
-            }
+            var dirNames = dir.Directories.Map(x => x.Name);
+            Assert.IsTrue(dirNames == expectedDirPaths.Map(x => x.SplitOnLast('/').Last()));
         }
     }
 }
+
