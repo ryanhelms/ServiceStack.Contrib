@@ -11,13 +11,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Redis", "Redis", "{F1442C03
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sql Server", "Sql Server", "{4E893F39-CD00-4264-824F-549C595B091A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UptimeFeature", "UptimeFeature\UptimeFeature.csproj", "{E893E85F-2A37-43C9-80BC-1E5C99C345F8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UptimeFeature", "..\UptimeFeature\UptimeFeature.csproj", "{E893E85F-2A37-43C9-80BC-1E5C99C345F8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UptimeFeature.Tests", "UptimeFeature.Tests\UptimeFeature.Tests.csproj", "{2C777A8B-30D8-4066-8275-C9CBBC134F6A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UptimeFeature.Tests", "..\UptimeFeature.Tests\UptimeFeature.Tests.csproj", "{2C777A8B-30D8-4066-8275-C9CBBC134F6A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RedisVfsFeature", "RedisVFSFeature\RedisVfsFeature.csproj", "{C5911759-36FC-4C23-B2CE-A54BFF0B4AA8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RedisVfsFeature", "..\RedisVFSFeature\RedisVfsFeature.csproj", "{C5911759-36FC-4C23-B2CE-A54BFF0B4AA8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RedisVfsFeature.Tests", "RedisVFSFeature.Tests\RedisVfsFeature.Tests.csproj", "{310689AB-2657-4C10-9618-1D6B03950560}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RedisVfsFeature.Tests", "..\RedisVFSFeature.Tests\RedisVfsFeature.Tests.csproj", "{310689AB-2657-4C10-9618-1D6B03950560}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
