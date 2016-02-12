@@ -10,7 +10,7 @@
     <projectUrl>http://ryanhelms.io/servicestack</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Testing base classes and other utilities</description>
-    <releaseNotes></releaseNotes>
+    <releaseNotes>v0.0.0.1</releaseNotes>
   </metadata>
   <files>
     <file src="bin\**\ServiceStack.Contrib.Testing.dll" target="lib" />
