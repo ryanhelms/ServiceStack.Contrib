@@ -1,12 +1,6 @@
-﻿using System.Linq;
-using System.Threading;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using ServiceStack.IO;
-using ServiceStack.Testing;
-using ServiceStack.VirtualPath;
-using Assert = NUnit.Framework.Assert;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace ServiceStack.Contrib.TestBase.MSTest
+namespace ServiceStack.Contrib.Testing.MSTest
 {
     [TestClass]
     public abstract class VirtualPathProviderTests

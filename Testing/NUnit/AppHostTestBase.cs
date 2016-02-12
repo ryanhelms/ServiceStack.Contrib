@@ -1,8 +1,8 @@
 ﻿using Funq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using ServiceStack.Testing;
 
-namespace ServiceStack.Contrib.TestBase.MSTest
+namespace ServiceStack.Contrib.Testing.NUnit
 {
     public class AppHostTestBase
     {
@@ -15,7 +15,7 @@ namespace ServiceStack.Contrib.TestBase.MSTest
             Container = AppHost.Container;
         }
         
-        [TestCleanup]
+        [OneTimeTearDown]
         public void TestCleanup()
         {
             AppHost.Dispose();

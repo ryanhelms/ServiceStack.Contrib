@@ -7,8 +7,8 @@
     <ProjectGuid>{AB9B7B8D-8478-4312-A4BB-DB8B09238733}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ServiceStack.Contrib.TestBase</RootNamespace>
-    <AssemblyName>ServiceStack.Contrib.TestBase</AssemblyName>
+    <RootNamespace>ServiceStack.Contrib.Testing</RootNamespace>
+    <AssemblyName>ServiceStack.Contrib.Testing</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -74,7 +74,7 @@
     <Compile Include="MSTest\VirtualPathProviderTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="TestBase.nuspec">
+    <Content Include="Testing.nuspec">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

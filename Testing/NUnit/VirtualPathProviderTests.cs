@@ -5,7 +5,7 @@ using ServiceStack.IO;
 using ServiceStack.Testing;
 using ServiceStack.VirtualPath;
 
-namespace ServiceStack.Contrib.TestBase.NUnit
+namespace ServiceStack.Contrib.Testing.NUnit
 {
     [TestFixture]
     public abstract class VirtualPathProviderTests

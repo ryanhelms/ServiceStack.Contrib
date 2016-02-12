@@ -1,15 +1,15 @@
 ﻿<?xml version="1.0"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
-    <id>ServiceStack.Contrib.TestBase</id>
-    <title>ServiceStack.Contrib.TestBase</title>
+    <id>ServiceStack.Contrib.Testing</id>
+    <title>ServiceStack.Contrib.Testing</title>
     <version>$version$</version>
     <authors>Ryan Helms</authors>
     <owners>Ryan Helms</owners>
     <licenseUrl>http://ryanhelms.io/nuget/license</licenseUrl>
     <projectUrl>http://ryanhelms.io/servicestack</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>UnitTesting base classes and utilities</description>
+    <description>Testing base classes and other utilities</description>
     <releaseNotes></releaseNotes>
   </metadata>
   <files>
