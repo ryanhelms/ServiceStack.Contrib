@@ -1,11 +1,11 @@
-﻿using NUnit.Framework;
+﻿using System.Linq;
+using System.Threading;
+using NUnit.Framework;
 using ServiceStack.IO;
 using ServiceStack.Testing;
 using ServiceStack.VirtualPath;
-using System.Linq;
-using System.Threading;
 
-namespace ServiceStack.Contrib.TestBase
+namespace ServiceStack.Contrib.Testing.NUnit
 {
     [TestFixture]
     public abstract class VirtualPathProviderTests
