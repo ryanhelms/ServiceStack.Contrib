@@ -1,0 +1,18 @@
+﻿<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>ServiceStack.Contrib.Features.RedisVfsFeature</id>
+    <title>ServiceStack.Contrib.Features.RedisVfsFeature</title>
+    <version>$version$</version>
+    <authors>Ryan Helms</authors>
+    <owners>Ryan Helms</owners>
+    <licenseUrl>http://ryanhelms.io/nuget/license</licenseUrl>
+    <projectUrl>http://ryanhelms.io/servicestack</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Redis Virtual File System Feature</description>
+    <releaseNotes></releaseNotes>
+  </metadata>
+  <files>
+    <file src="bin\**\ServiceStack.Contrib.Features.RedisVFSFeature.dll" target="lib" />
+  </files>
+</package>
