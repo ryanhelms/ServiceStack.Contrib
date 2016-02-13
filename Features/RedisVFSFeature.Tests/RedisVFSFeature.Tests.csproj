@@ -87,9 +87,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\RedisVFSFeature\RedisVfsFeature.csproj">
+    <ProjectReference Include="..\RedisVFSFeature\RedisVFSFeature.csproj">
       <Project>{c5911759-36fc-4c23-b2ce-a54bff0b4aa8}</Project>
-      <Name>RedisVfsFeature</Name>
+      <Name>RedisVFSFeature</Name>
     </ProjectReference>
   </ItemGroup>
   <Choose>
