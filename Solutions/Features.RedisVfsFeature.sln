@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RedisVFSFeature", "..\Features\RedisVFSFeature\RedisVFSFeature.csproj", "{C5911759-36FC-4C23-B2CE-A54BFF0B4AA8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RedisVfsFeature", "..\Features\RedisVFSFeature\RedisVfsFeature.csproj", "{C5911759-36FC-4C23-B2CE-A54BFF0B4AA8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RedisVFSFeature.Tests", "..\Features\RedisVFSFeature.Tests\RedisVFSFeature.Tests.csproj", "{310689AB-2657-4C10-9618-1D6B03950560}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RedisVfsFeature.Tests", "..\Features\RedisVFSFeature.Tests\RedisVfsFeature.Tests.csproj", "{310689AB-2657-4C10-9618-1D6B03950560}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
