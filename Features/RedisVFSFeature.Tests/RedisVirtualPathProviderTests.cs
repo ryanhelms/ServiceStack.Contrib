@@ -4,13 +4,15 @@ using ServiceStack;
 using System.Threading;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using ServiceStack.Contrib.Features.RedisVFSFeature;
 using ServiceStack.Contrib.Features.RedisVFSFeature.Providers;
 using ServiceStack.Contrib.Testing.MSTest;
+using Assert = NUnit.Framework.Assert;
 
 namespace RedisVFSFeature.Tests
 {
-    [TestClass]
+    [TestFixture]
     public class RedisVirtualPathProviderTests : AppHostTestBase
     {
         public RedisVirtualPathProviderTests()
