@@ -3,12 +3,10 @@ using ServiceStack.VirtualPath;
 using ServiceStack;
 using System.Threading;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NUnit.Framework;
 using ServiceStack.Contrib.Features.RedisVFSFeature;
 using ServiceStack.Contrib.Features.RedisVFSFeature.Providers;
-using ServiceStack.Contrib.Testing.MSTest;
-using Assert = NUnit.Framework.Assert;
+using ServiceStack.Contrib.Testing.NUnit;
 
 namespace RedisVFSFeature.Tests
 {
@@ -29,7 +27,7 @@ namespace RedisVFSFeature.Tests
             return new RedisVirtualPathProvider(AppHost);
         }
    
-        [TestMethod]
+        [Test]
         public void Can_create_file()
         {
             var pathProvider = GetPathProvider();
@@ -53,7 +51,7 @@ namespace RedisVFSFeature.Tests
             pathProvider.DeleteFolder("dir");
         }
 
-        [TestMethod]
+        [Test]
         public void Does_refresh_LastModified()
         {
             var pathProvider = GetPathProvider();
@@ -65,7 +63,7 @@ namespace RedisVFSFeature.Tests
             var prevLastModified = file.LastModified;
 
             file.Refresh();
-            Assert.IsTrue(file.LastModified ==prevLastModified);
+            Assert.IsTrue(file.LastModified == prevLastModified);
 
             pathProvider.WriteFile(filePath, "file2");
             file.Refresh();
@@ -77,12 +75,12 @@ namespace RedisVFSFeature.Tests
                 file.Refresh();
             }
 
-            Assert.IsTrue(file.LastModified !=(prevLastModified));
+            Assert.IsTrue(file.LastModified != (prevLastModified));
 
             pathProvider.DeleteFolder("dir");
         }
 
-        [TestMethod]
+        [Test]
         public void Can_create_file_from_root()
         {
             var pathProvider = GetPathProvider();
@@ -93,7 +91,7 @@ namespace RedisVFSFeature.Tests
             var file = pathProvider.GetFile(filePath);
 
             Assert.IsTrue(file.ReadAllText() == "file");
-            Assert.IsTrue(file.Name ==filePath);
+            Assert.IsTrue(file.Name == filePath);
             Assert.IsTrue(file.Extension == "txt");
 
             Assert.IsTrue(file.Directory.VirtualPath == null);
@@ -102,7 +100,7 @@ namespace RedisVFSFeature.Tests
             pathProvider.DeleteFiles(new[] { "file.txt" });
         }
 
-        [TestMethod]
+        [Test]
         public void Does_override_existing_file()
         {
             var pathProvider = GetPathProvider();
@@ -119,7 +117,7 @@ namespace RedisVFSFeature.Tests
             pathProvider.DeleteFolder("a");
         }
 
-        [TestMethod]
+        [Test]
         public void Can_view_files_in_Directory()
         {
             var pathProvider = GetPathProvider();
@@ -144,7 +142,7 @@ namespace RedisVFSFeature.Tests
             pathProvider.DeleteFolder("testdir");
         }
 
-        [TestMethod]
+        [Test]
         public void Does_resolve_nested_files_and_folders()
         {
             var pathProvider = GetPathProvider();
