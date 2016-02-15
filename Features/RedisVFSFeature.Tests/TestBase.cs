@@ -5,27 +5,23 @@ using ServiceStack.Testing;
 
 namespace Test
 {
+    [SetUpFixture]
     public class AppHostTestBase
     {
         public ServiceStackHost AppHost;
         public Container Container;
 
-        public AppHostTestBase()
-        {
-
-        }
-
         [OneTimeSetUp]
-        public void SetUpFixture()
+        public void TestFixtureSetUp()
         {
             AppHost = new BasicAppHost().Init();
-            Container = AppHost.Container;
+            var container = AppHost.Container;
         }
 
         [OneTimeTearDown]
-        public void TearDown()
+        public void TestFixtureTearDown()
         {
-            AppHost.Dispose();
+            AppHost = null;
         }
     }
 }

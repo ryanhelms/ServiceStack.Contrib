@@ -14,33 +14,19 @@ using ServiceStack.Testing;
 namespace RedisVFSFeature.Tests
 {
     [TestFixture]
-    public class RedisVirtualPathProviderTests //: Test.AppHostTestBase
+    public class RedisVirtualPathProviderTests : Test.AppHostTestBase
     {
-        public ServiceStackHost AppHost;
-        public Container Container;
-
-        [SetUp]
-        public void SetUpFixture()
+        [OneTimeSetUp]
+        public void OneTimeSetUp()
         {
-            AppHost = new BasicAppHost(typeof (RedisVfsFeature).Assembly);
-            AppHost.Init();
-            
-            Container = AppHost.Container;
-
             var redisVfsFeature = new RedisVfsFeature();
-
+            
             AppHost.Plugins.Add(redisVfsFeature);
 
             redisVfsFeature.Register(AppHost);
         }
 
-        [OneTimeTearDown]
-        public void TearDown()
-        {
-            AppHost.Dispose();
-        }
-
-        public IVirtualPathProvider GetPathProvider()
+        private IVirtualPathProvider GetPathProvider()
         {
             return new RedisVirtualPathProvider(AppHost);
         }
@@ -54,7 +40,6 @@ namespace RedisVFSFeature.Tests
             pathProvider.WriteFile(filePath, "file");
 
             Assert.IsTrue(true);
-            return;
 
             var file = pathProvider.GetFile(filePath);
 
