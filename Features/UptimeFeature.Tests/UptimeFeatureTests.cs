@@ -8,8 +8,22 @@ namespace ServiceStack.Contrib.Features.Uptime.Tests
     [TestFixture]
     public class UptimeServiceTests : AppHostTestBase
     {
-        public DateTime OriginalStartedAt => AppHost.StartedAt;
-        public UptimeService SUT => new UptimeService();
+        public DateTime OriginalStartedAt { get; set; }
+
+        public UptimeService SUT { get; set; }
+
+        [OneTimeSetUp]
+        public void OneTimeSetup()
+        {
+            OriginalStartedAt = AppHost.StartedAt;
+            SUT = new UptimeService();
+        }
+
+        [OneTimeTearDown]
+        public void OneTimeTeardown()
+        {
+            AppHost.Dispose();
+        }
 
         [Test]
         public void Should_return_valid_uptime_string_with_seconds()
@@ -23,6 +37,8 @@ namespace ServiceStack.Contrib.Features.Uptime.Tests
             // Assert
             Assert.IsTrue(response.Duration.Contains(" Second"));
             Assert.IsFalse(response.Duration.Contains(" Minute"));
+
+            Console.WriteLine("Duration: {0}".Fmt(response.Duration));
         }
 
         [Test]
