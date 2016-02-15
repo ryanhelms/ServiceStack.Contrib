@@ -43,8 +43,8 @@
       <HintPath>..\..\Solutions\packages\ServiceStack.Common.4.0.52\lib\net40\ServiceStack.Common.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="ServiceStack.Contrib.Testing, Version=0.0.5886.30825, Culture=neutral, processorArchitecture=x86">
-      <HintPath>..\..\Solutions\packages\ServiceStack.Contrib.Testing.0.0.0.57\lib\Release\ServiceStack.Contrib.Testing.dll</HintPath>
+    <Reference Include="ServiceStack.Contrib.Testing, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\Solutions\packages\ServiceStack.Contrib.Testing.0.0.5889.26174\lib\net\ServiceStack.Contrib.Testing.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="ServiceStack.Interfaces, Version=4.0.0.0, Culture=neutral, PublicKeyToken=e06fbc6124f57c43, processorArchitecture=MSIL">
