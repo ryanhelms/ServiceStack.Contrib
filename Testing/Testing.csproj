@@ -70,7 +70,9 @@
     <Compile Include="MSTest\AppHostTestBase.cs" />
     <Compile Include="NUnit\AppHostTestBase.cs" />
     <Compile Include="NUnit\VirtualPathProviderTests.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Content Include="Properties\AssemblyInfo.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Compile Include="MSTest\VirtualPathProviderTests.cs" />
   </ItemGroup>
   <ItemGroup>
