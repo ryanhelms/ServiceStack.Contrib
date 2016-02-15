@@ -1,20 +1,17 @@
-﻿using System;
-using ServiceStack.IO;
+﻿using ServiceStack.IO;
 using ServiceStack.VirtualPath;
 using ServiceStack;
 using System.Threading;
 using System.Linq;
-using Funq;
 using NUnit.Framework;
 using ServiceStack.Contrib.Features.RedisVFSFeature;
 using ServiceStack.Contrib.Features.RedisVFSFeature.Providers;
 using ServiceStack.Contrib.Testing.NUnit;
-using ServiceStack.Testing;
 
 namespace RedisVFSFeature.Tests
 {
     [TestFixture]
-    public class RedisVirtualPathProviderTests : Test.AppHostTestBase
+    public class RedisVirtualPathProviderTests : AppHostTestBase
     {
         [OneTimeSetUp]
         public void OneTimeSetUp()
@@ -38,9 +35,7 @@ namespace RedisVFSFeature.Tests
 
             var filePath = "dir/file.txt";
             pathProvider.WriteFile(filePath, "file");
-
-            Assert.IsTrue(true);
-
+            
             var file = pathProvider.GetFile(filePath);
 
             Assert.IsTrue(file.ReadAllText() == "file");
