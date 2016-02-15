@@ -13,6 +13,6 @@
     <releaseNotes></releaseNotes>
   </metadata>
   <files>
-    <file src="bin\**\ServiceStack.Contrib.Features.UptimeFeature.dll" target="lib" />
+    <file src="bin\$configuration$\ServiceStack.Contrib.Features.UptimeFeature.dll" target="net40" />
   </files>
 </package>
