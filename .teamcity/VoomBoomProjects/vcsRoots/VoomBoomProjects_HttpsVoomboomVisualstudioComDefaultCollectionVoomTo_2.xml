@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<vcs-root xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" uuid="b6b021b5-a299-48e4-ac7d-66a7618e485c" type="tfs" xsi:noNamespaceSchemaLocation="http://www.jetbrains.com/teamcity/schemas/9.0/project-config.xsd">
-  <name>https://voomboom.visualstudio.com/DefaultCollection/VoomTo</name>
-  <param name="secure:tfs-password" value="zxx3bf834275cd363f9775d03cbe80d301b" />
-  <param name="tfs-root" value="$/VoomTo" />
-  <param name="tfs-url" value="https://voomboom.visualstudio.com/DefaultCollection/" />
-  <param name="tfs-username" value="##LIVE##\ryan@voomboom.com" />
-</vcs-root>
-
