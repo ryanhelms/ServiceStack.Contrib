@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<build-type xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" uuid="724b566e-4a75-4d72-b163-794754082acd" xsi:noNamespaceSchemaLocation="http://www.jetbrains.com/teamcity/schemas/9.0/project-config.xsd">
+  <name>Tests</name>
+  <description>Unit Tests</description>
+  <settings ref="ServiceStackContrib_TestProject">
+    <parameters />
+    <build-runners order="RUNNER_46, RUNNER_42, RUNNER_44, RUNNER_47, RUNNER_48, RUNNER_45" />
+    <vcs-settings />
+    <requirements />
+    <build-triggers />
+    <cleanup />
+  </settings>
+</build-type>
+

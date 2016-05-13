@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" parent-id="VoomBoomProjects" uuid="17c9d07a-1d5d-4926-b6a5-faed07f7a7be" xsi:noNamespaceSchemaLocation="http://www.jetbrains.com/teamcity/schemas/9.0/project-config.xsd">
+  <name>VoomTo</name>
+  <description>VoomTo CMS</description>
+  <parameters>
+    <param name="NUnitConsoleRunnerVersion" value="NUnit.ConsoleRunner.3.2.0" />
+  </parameters>
+  <cleanup />
+</project>
+

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<build-type xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" uuid="24671ecc-d656-4f07-ad2a-3b6bfd5bd062" xsi:noNamespaceSchemaLocation="http://www.jetbrains.com/teamcity/schemas/9.0/project-config.xsd">
+  <name>Diagnostics</name>
+  <description />
+  <settings>
+    <parameters />
+    <build-runners>
+      <runner id="RUNNER_41" name="" type="dotnet-tools-dupfinder">
+        <parameters>
+          <param name="dotnet-tools-dupfinder.debug" value="true" />
+          <param name="dotnet-tools-dupfinder.discard_cost" value="70" />
+          <param name="dotnet-tools-dupfinder.exclude_files" value="**/AssemblyInfo.cs" />
+          <param name="dotnet-tools-dupfinder.hashing.discard_literals" value="true" />
+          <param name="dotnet-tools-dupfinder.include_files" value="**/*.cs" />
+          <param name="teamcity.step.mode" value="default" />
+        </parameters>
+      </runner>
+    </build-runners>
+    <vcs-settings>
+      <vcs-entry-ref root-id="VoomBoomProjects_HttpsVoomboomVisualstudioComDefaultCollectionVoomTo_2">
+        <checkout-rule rule="+:Source/Main =&gt; ." />
+      </vcs-entry-ref>
+    </vcs-settings>
+    <requirements />
+    <build-triggers>
+      <build-trigger id="TRIGGER_3" type="buildDependencyTrigger">
+        <parameters>
+          <param name="afterSuccessfulBuildOnly" value="true" />
+          <param name="dependsOn" value="VoomBoomProjects_VoomTo_Build" />
+        </parameters>
+      </build-trigger>
+    </build-triggers>
+    <dependencies>
+      <depend-on sourceBuildTypeId="VoomBoomProjects_VoomTo_Build">
+        <options>
+          <option name="run-build-if-dependency-failed" value="RUN_ADD_PROBLEM" />
+          <option name="run-build-on-the-same-agent" value="true" />
+          <option name="take-started-build-with-same-revisions" value="true" />
+          <option name="take-successful-builds-only" value="true" />
+        </options>
+      </depend-on>
+    </dependencies>
+    <cleanup />
+  </settings>
+</build-type>
+

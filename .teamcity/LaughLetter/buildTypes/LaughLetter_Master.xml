@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<build-type xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" uuid="95ba6253-1287-4951-a05a-562ae783bd01" xsi:noNamespaceSchemaLocation="http://www.jetbrains.com/teamcity/schemas/9.0/project-config.xsd">
+  <name>Master</name>
+  <description />
+  <settings>
+    <options>
+      <option name="buildNumberPattern" value="0.0.1.%build.counter%" />
+    </options>
+    <parameters />
+    <build-runners>
+      <runner id="RUNNER_8" name="" type="jb.nuget.installer">
+        <parameters>
+          <param name="nuget.path" value="?NuGet.CommandLine.DEFAULT.nupkg" />
+          <param name="nuget.sources"><![CDATA[https://www.nuget.org/api/v2/
+http://teamcity.mobacomm.com:9999/guestAuth/app/nuget/v1/FeedService.svc/]]></param>
+          <param name="nuget.updatePackages.mode" value="sln" />
+          <param name="nuget.use.restore" value="restore" />
+          <param name="nugetCustomPath" value="?NuGet.CommandLine.DEFAULT.nupkg" />
+          <param name="nugetPathSelector" value="?NuGet.CommandLine.DEFAULT.nupkg" />
+          <param name="sln.path" value="LaughLetter.com.sln" />
+          <param name="teamcity.step.mode" value="default" />
+        </parameters>
+      </runner>
+      <runner id="RUNNER_10" name="" type="{47497b2b-4c0f-4117-8da7-f745d6cf2f12}">
+        <parameters>
+          <param name="build.redGate.dlmDashboardEnabled" value="true" />
+          <param name="build.redGate.dlmDashboardHost" value="localhost" />
+          <param name="build.redGate.dlmDashboardPort" value="19528" />
+          <param name="build.redGate.sourceScriptsFolder" value="Database" />
+          <param name="build.redGate.sourceScriptsFolderRadio" value="build.redGate.sourceScriptsFolderVcsSubfolder" />
+          <param name="build.redGate.sqlDocEnabled" value="true" />
+          <param name="common.redGate.auth.type" value="common.redGate.use.windows.auth" />
+          <param name="common.redGate.package.id" value="LaughLetter.Database" />
+          <param name="common.use.local.db" value="common.local.db" />
+          <param name="teamcity.step.mode" value="default" />
+        </parameters>
+      </runner>
+      <runner id="RUNNER_9" name="" type="VS.Solution">
+        <parameters>
+          <param name="build-file-path" value="LaughLetter.com.sln" />
+          <param name="msbuild.prop.Configuration" value="Release" />
+          <param name="msbuild_version" value="12.0" />
+          <param name="octopus_run_octopack" value="true" />
+          <param name="run-platform" value="x86" />
+          <param name="runnerArgs"><![CDATA[/p:OctoPackPublishPackageToHttp=http://octopus.mobacomm.com:8888/nuget/packages /p:OctoPackPublishApiKey=API-MGF7S5QPTJWXJLAYIYJ8UFP3ZUQ
+/p:OctoPackPackageVersion=%system.build.number% 
+/p:OctoPackPublishPackagesToTeamCity=False
+/p:OctoPackEnforceAddingFiles=true]]></param>
+          <param name="targets" value="Rebuild" />
+          <param name="teamcity.step.mode" value="default" />
+          <param name="toolsVersion" value="12.0" />
+          <param name="vs.version" value="vs2013" />
+        </parameters>
+      </runner>
+    </build-runners>
+    <vcs-settings>
+      <vcs-entry-ref root-id="LaughLetter_HttpsGithubComRyanhelmsLaughletterComGit" />
+    </vcs-settings>
+    <requirements />
+    <build-triggers>
+      <build-trigger id="vcsTrigger" type="vcsTrigger">
+        <parameters>
+          <param name="quietPeriodMode" value="DO_NOT_USE" />
+        </parameters>
+      </build-trigger>
+    </build-triggers>
+    <build-extensions>
+      <extension id="JetBrains.AssemblyInfo" type="JetBrains.AssemblyInfo">
+        <parameters>
+          <param name="assembly-format" value="%build.number%" />
+          <param name="patch-global-assembly-info" value="true" />
+        </parameters>
+      </extension>
+    </build-extensions>
+    <cleanup />
+  </settings>
+</build-type>
+

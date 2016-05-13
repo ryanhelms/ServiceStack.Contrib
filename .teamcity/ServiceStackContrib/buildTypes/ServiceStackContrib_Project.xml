@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<template xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" uuid="8e7e0e35-049d-4fc9-a684-597a8b7ae160" xsi:noNamespaceSchemaLocation="http://www.jetbrains.com/teamcity/schemas/9.0/project-config.xsd">
+  <name>Build Project</name>
+  <settings>
+    <options>
+      <option name="allowExternalStatus" value="true" />
+      <option name="buildNumberPattern" value="0.0.0.%build.counter%" />
+      <option name="showDependenciesChanges" value="true" />
+    </options>
+    <parameters />
+    <build-runners>
+      <runner id="RUNNER_29" name="Generate Build / Revision By Date" type="jetbrains_powershell">
+        <parameters>
+          <param name="jetbrains_powershell_bitness" value="x86" />
+          <param name="jetbrains_powershell_execution" value="PS1" />
+          <param name="jetbrains_powershell_script_code"><![CDATA[. .\%env.SrcPath%\AssemblyInfo.ps1
+
+$NewVersion = $(Get-NewVersionNumber '%system.build.number%')
+
+Update-AllAssemblyInfoFiles $NewVersion
+
+Write-Host "##teamcity[buildNumber '$NewVersion']"]]></param>
+          <param name="jetbrains_powershell_script_mode" value="CODE" />
+          <param name="teamcity.step.mode" value="default" />
+        </parameters>
+      </runner>
+      <runner id="RUNNER_35" name="Prepare Environment Variables (Part 1)" type="jetbrains_powershell">
+        <parameters>
+          <param name="jetbrains_powershell_bitness" value="x86" />
+          <param name="jetbrains_powershell_execution" value="PS1" />
+          <param name="jetbrains_powershell_script_code"><![CDATA[if ($env:TEAMCITY_VERSION) {
+    Write-Host "Updating buffer size"
+    $host.UI.RawUI.BufferSize = New-Object System.Management.Automation.Host.Size(8192,50)
+    Write-Host "Updating complete"
+}
+
+$SrcPath = "$env:TEAMCITY_PROJECT_NAME"
+
+if(-Not [string]::IsNullOrEmpty($env:ProjectRoot))
+{
+    $SrcPath = [string]::Concat("$env:ProjectRoot", "/", "$SrcPath")
+   Write-Host "MODIFIED SrcPath to $SrcPath"
+}
+
+$TestPath = [string]::Concat($SrcPath, ".Tests")
+
+Write-Host "##teamcity[setParameter name='env.ProjectRoot' value='$env:ProjectRoot']"
+Write-Host "##teamcity[setParameter name='env.ProjectName' value='$env:TEAMCITY_PROJECT_NAME']"
+Write-Host "##teamcity[setParameter name='env.SolutionName' value='$env:SolutionName']"
+Write-Host "##teamcity[setParameter name='env.SolutionPath' value='Solutions/$env:SolutionName`.sln']"
+Write-Host "##teamcity[setParameter name='env.SrcPath' value='$SrcPath']"
+Write-Host "##teamcity[setParameter name='env.TestPath' value='$TestPath']"]]></param>
+          <param name="jetbrains_powershell_script_mode" value="CODE" />
+          <param name="teamcity.step.mode" value="default" />
+        </parameters>
+      </runner>
+      <runner id="RUNNER_40" name="Assign Environment Variables (Part 2)" type="jetbrains_powershell">
+        <parameters>
+          <param name="jetbrains_powershell_bitness" value="x86" />
+          <param name="jetbrains_powershell_execution" value="PS1" />
+          <param name="jetbrains_powershell_script_code"><![CDATA[Write-Host "Project Root: $env:ProjectRoot"
+Write-Host "Project Name: $env:ProjectName"
+Write-Host "Solution Name: $env:SolutionName"
+Write-Host "Solution Path: $env:SolutionPath"
+Write-Host "Source Path: $env:SrcPath"
+Write-Host "Test Path: $env:TestPath"
+
+Write-Host "Configuration: %system.Configuration%"]]></param>
+          <param name="jetbrains_powershell_script_mode" value="CODE" />
+          <param name="teamcity.build.workingDir" value="Assign Environment Variables (Parts 2)" />
+          <param name="teamcity.step.mode" value="default" />
+        </parameters>
+      </runner>
+      <runner id="RUNNER_30" name="" type="jb.nuget.installer">
+        <parameters>
+          <param name="nuget.noCache" value="true" />
+          <param name="nuget.path" value="?NuGet.CommandLine.DEFAULT" />
+          <param name="nuget.sources"><![CDATA[https://www.nuget.org/api/v2/
+%teamcity.nuget.feed.server%]]></param>
+          <param name="nuget.updatePackages" value="true" />
+          <param name="nuget.updatePackages.mode" value="sln" />
+          <param name="nuget.use.restore" value="restore" />
+          <param name="nugetCustomPath" value="?NuGet.CommandLine.DEFAULT" />
+          <param name="nugetPathSelector" value="?NuGet.CommandLine.DEFAULT" />
+          <param name="sln.path" value="%env.SolutionPath%" />
+          <param name="teamcity.step.mode" value="default" />
+        </parameters>
+      </runner>
+      <runner id="RUNNER_33" name="" type="MSBuild">
+        <parameters>
+          <param name="build-file-path" value="%env.SrcPath%/%env.ProjectName%.csproj" />
+          <param name="dotNetCoverage.NCover.HTMLReport.File.Sort" value="0" />
+          <param name="dotNetCoverage.NCover.HTMLReport.File.Type" value="1" />
+          <param name="dotNetCoverage.NCover.Reg" value="selected" />
+          <param name="dotNetCoverage.NCover.platformBitness" value="x86" />
+          <param name="dotNetCoverage.NCover.platformVersion" value="v2.0" />
+          <param name="dotNetCoverage.NCover3.Reg" value="selected" />
+          <param name="dotNetCoverage.NCover3.args" value="//ias .*" />
+          <param name="dotNetCoverage.NCover3.platformBitness" value="x86" />
+          <param name="dotNetCoverage.NCover3.platformVersion" value="v2.0" />
+          <param name="dotNetCoverage.NCover3.reporter.executable.args" value="//or FullCoverageReport:Html:{teamcity.report.path}" />
+          <param name="dotNetCoverage.PartCover.Reg" value="selected" />
+          <param name="dotNetCoverage.PartCover.includes" value="[*]*" />
+          <param name="dotNetCoverage.PartCover.platformBitness" value="x86" />
+          <param name="dotNetCoverage.PartCover.platformVersion" value="v2.0" />
+          <param name="msbuild_version" value="14.0" />
+          <param name="octopus_octopack_package_version" value="%build.number%" />
+          <param name="octopus_run_octopack" value="true" />
+          <param name="run-platform" value="x86" />
+          <param name="runnerArgs" value="/p:OctoPackNuGetProperties=configuration=%system.Configuration%" />
+          <param name="targets" value="Rebuild" />
+          <param name="teamcity.step.mode" value="default" />
+          <param name="toolsVersion" value="14.0" />
+        </parameters>
+      </runner>
+      <runner id="RUNNER_34" name="" type="octopus.create.release">
+        <parameters>
+          <param name="octopus_host" value="http://octopus.mobacomm.com:8888/" />
+          <param name="octopus_project_name" value="ServiceStack.Contrib.%env.SolutionName%" />
+          <param name="octopus_releasenumber" value="%build.number%" />
+          <param name="octopus_version" value="3.0+" />
+          <param name="octopus_waitfordeployments" value="true" />
+          <param name="secure:octopus_apikey" value="zxx54d5a53b29fa80766827afd7c507d9db5e0cb51b5709b03bad51cfefd5b61037" />
+          <param name="teamcity.step.mode" value="default" />
+        </parameters>
+      </runner>
+    </build-runners>
+    <vcs-settings>
+      <vcs-entry-ref root-id="ServiceStackContrib_HttpsGithubComRyanhelmsServiceStackContribGit">
+        <checkout-rule rule="+:%env.SrcPath%" />
+        <checkout-rule rule="+:%env.SolutionPath%" />
+        <checkout-rule rule="+:.build =&gt; %env.SrcPath%" />
+      </vcs-entry-ref>
+    </vcs-settings>
+    <requirements />
+    <build-triggers>
+      <build-trigger id="vcsTrigger" type="vcsTrigger">
+        <parameters>
+          <param name="groupCheckinsByCommitter" value="true" />
+          <param name="perCheckinTriggering" value="true" />
+          <param name="quietPeriodMode" value="DO_NOT_USE" />
+          <param name="triggerRules"><![CDATA[+:%env.SolutionPath%
++:%env.SrcPath%/**/*]]></param>
+        </parameters>
+      </build-trigger>
+    </build-triggers>
+    <cleanup />
+  </settings>
+</template>
+

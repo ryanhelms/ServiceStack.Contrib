@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<vcs-root xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" uuid="77266bed-36a8-4c1b-85e8-8dce76fef920" type="jetbrains.git" xsi:noNamespaceSchemaLocation="http://www.jetbrains.com/teamcity/schemas/9.0/project-config.xsd">
+  <name>Project Name (all branches + pull requests)</name>
+  <param name="agentCleanFilesPolicy" value="ALL_UNTRACKED" />
+  <param name="agentCleanPolicy" value="ON_BRANCH_CHANGE" />
+  <param name="authMethod" value="PASSWORD" />
+  <param name="branch" value="refs/heads/master" />
+  <param name="ignoreKnownHosts" value="true" />
+  <param name="secure:password" value="zxx3bf834275cd363f9775d03cbe80d301b" />
+  <param name="submoduleCheckout" value="CHECKOUT" />
+  <param name="teamcity:branchSpec"><![CDATA[+:refs/pull/*/merge
++:refs/heads/*]]></param>
+  <param name="url" value="https://github.com/ryanhelms/GitVersionTests.git" />
+  <param name="useAlternates" value="true" />
+  <param name="username" value="ryan@ryanhelms.com" />
+  <param name="usernameStyle" value="USERID" />
+</vcs-root>
+

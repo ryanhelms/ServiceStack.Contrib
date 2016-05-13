@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<build-type xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" uuid="726edd3a-9097-4502-9bb3-fdac75e5a97b" xsi:noNamespaceSchemaLocation="http://www.jetbrains.com/teamcity/schemas/9.0/project-config.xsd">
+  <name>Build</name>
+  <description />
+  <settings ref="ServiceStackContrib_Project">
+    <parameters />
+    <build-runners order="RUNNER_29, RUNNER_35, RUNNER_40, RUNNER_30, RUNNER_33, RUNNER_34" />
+    <vcs-settings />
+    <requirements />
+    <build-triggers />
+    <cleanup />
+  </settings>
+</build-type>
+

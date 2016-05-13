@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" uuid="92e2dd6b-51ae-4711-abdb-2f8ded0dc9cb" xsi:noNamespaceSchemaLocation="http://www.jetbrains.com/teamcity/schemas/9.0/project-config.xsd">
+  <name>ServiceStack.Contrib</name>
+  <description>ServiceStack.NET Contributions</description>
+  <parameters>
+    <param name="env.ProjectName" value="%env.TEAMCITY_PROJECT_NAME%" />
+    <param name="env.ProjectRoot" value="" />
+    <param name="env.SolutionName" value="%env.TEAMCITY_PROJECT_NAME%" />
+    <param name="env.SolutionPath" value="Solutions/%env.SolutionName%.sln" />
+    <param name="env.SrcPath" value="%env.TEAMCITY_PROJECT_NAME%" />
+    <param name="env.TestPath" value="%env.SrcPath%.Tests" />
+  </parameters>
+  <cleanup />
+</project>
+

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" parent-id="ServiceStackContribFeatures" uuid="baa4ced8-bf76-4693-b497-2a6e346331db" xsi:noNamespaceSchemaLocation="http://www.jetbrains.com/teamcity/schemas/9.0/project-config.xsd">
+  <name>RedisVFSFeature</name>
+  <parameters />
+  <cleanup />
+</project>
+

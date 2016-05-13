@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<build-type xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" uuid="2de61975-2dd3-411c-b555-6824529955d0" xsi:noNamespaceSchemaLocation="http://www.jetbrains.com/teamcity/schemas/9.0/project-config.xsd">
+  <name>Tests</name>
+  <description />
+  <settings>
+    <options>
+      <option name="showDependenciesChanges" value="true" />
+    </options>
+    <disabled-settings>
+      <setting-ref ref="RUNNER_23" />
+      <setting-ref ref="RUNNER_24" />
+      <setting-ref ref="RUNNER_25" />
+      <setting-ref ref="RUNNER_26" />
+      <setting-ref ref="RUNNER_27" />
+    </disabled-settings>
+    <parameters />
+    <build-runners>
+      <runner id="RUNNER_23" name="Generate Build / Revision By Date" type="jetbrains_powershell">
+        <parameters>
+          <param name="jetbrains_powershell_bitness" value="x86" />
+          <param name="jetbrains_powershell_execution" value="PS1" />
+          <param name="jetbrains_powershell_script_code"><![CDATA[. .\.build\AssemblyInfo.ps1
+
+$NewVersion = $(Get-NewVersionNumber '%system.build.number%')
+
+Update-AllAssemblyInfoFiles $NewVersion
+
+Write-Host "##teamcity[buildNumber '$NewVersion']"]]></param>
+          <param name="jetbrains_powershell_script_mode" value="CODE" />
+          <param name="teamcity.step.mode" value="default" />
+        </parameters>
+      </runner>
+      <runner id="RUNNER_24" name="Prepare Environment Variables (Part 1)" type="jetbrains_powershell">
+        <parameters>
+          <param name="jetbrains_powershell_bitness" value="x86" />
+          <param name="jetbrains_powershell_execution" value="PS1" />
+          <param name="jetbrains_powershell_script_code"><![CDATA[if ($env:TEAMCITY_VERSION) {
+    Write-Host "Updating buffer size"
+    $host.UI.RawUI.BufferSize = New-Object System.Management.Automation.Host.Size(8192,50)
+    Write-Host "Updating complete"
+}
+
+$SrcPath = "$env:TEAMCITY_PROJECT_NAME"
+
+if(-Not [string]::IsNullOrEmpty($env:ProjectRoot))
+{
+    $SrcPath = [string]::Concat("$env:ProjectRoot", "/", "$SrcPath")
+   Write-Host "MODIFIED SrcPath to $SrcPath"
+}
+
+$TestPath = [string]::Concat($SrcPath, ".Tests")
+
+Write-Host "##teamcity[setParameter name='env.ProjectRoot' value='$env:ProjectRoot']"
+Write-Host "##teamcity[setParameter name='env.ProjectName' value='$env:TEAMCITY_PROJECT_NAME']"
+Write-Host "##teamcity[setParameter name='env.SolutionName' value='$env:SolutionName']"
+Write-Host "##teamcity[setParameter name='env.SolutionPath' value='Solutions/$env:SolutionName`.sln']"
+Write-Host "##teamcity[setParameter name='env.SrcPath' value='$SrcPath']"
+Write-Host "##teamcity[setParameter name='env.TestPath' value='$TestPath']"]]></param>
+          <param name="jetbrains_powershell_script_mode" value="CODE" />
+          <param name="teamcity.step.mode" value="default" />
+        </parameters>
+      </runner>
+      <runner id="RUNNER_25" name="Assign Environment Variables (Part 2)" type="jetbrains_powershell">
+        <parameters>
+          <param name="jetbrains_powershell_bitness" value="x86" />
+          <param name="jetbrains_powershell_execution" value="PS1" />
+          <param name="jetbrains_powershell_script_code"><![CDATA[Write-Host "Project Root: $env:ProjectRoot"
+Write-Host "Project Name: $env:ProjectName"
+Write-Host "Solution Name: $env:SolutionName"
+Write-Host "Solution Path: $env:SolutionPath"
+Write-Host "Source Path: $env:SrcPath"
+Write-Host "Test Path: $env:TestPath"
+
+Write-Host "Configuration: %system.Configuration%"]]></param>
+          <param name="jetbrains_powershell_script_mode" value="CODE" />
+          <param name="teamcity.build.workingDir" value="Assign Environment Variables (Parts 2)" />
+          <param name="teamcity.step.mode" value="default" />
+        </parameters>
+      </runner>
+      <runner id="RUNNER_26" name="" type="jb.nuget.installer">
+        <parameters>
+          <param name="nuget.noCache" value="true" />
+          <param name="nuget.path" value="?NuGet.CommandLine.DEFAULT" />
+          <param name="nuget.updatePackages" value="true" />
+          <param name="nuget.updatePackages.mode" value="sln" />
+          <param name="nuget.use.restore" value="restore" />
+          <param name="nugetCustomPath" value="?NuGet.CommandLine.DEFAULT" />
+          <param name="nugetPathSelector" value="?NuGet.CommandLine.DEFAULT" />
+          <param name="sln.path" value="VoomTo.sln" />
+          <param name="teamcity.step.mode" value="default" />
+        </parameters>
+      </runner>
+      <runner id="RUNNER_27" name="" type="VS.Solution">
+        <parameters>
+          <param name="build-file-path" value="VoomTo.sln" />
+          <param name="msbuild.prop.Configuration" value="Debug" />
+          <param name="msbuild_version" value="14.0" />
+          <param name="run-platform" value="x86" />
+          <param name="targets" value="Rebuild" />
+          <param name="teamcity.step.mode" value="default" />
+          <param name="toolsVersion" value="14.0" />
+          <param name="vs.version" value="vs2015" />
+        </parameters>
+      </runner>
+      <runner id="RUNNER_31" name="" type="NUnit">
+        <parameters>
+          <param name="dotNetCoverage.NCover.HTMLReport.File.Sort" value="0" />
+          <param name="dotNetCoverage.NCover.HTMLReport.File.Type" value="1" />
+          <param name="dotNetCoverage.NCover.Reg" value="selected" />
+          <param name="dotNetCoverage.NCover.platformBitness" value="x86" />
+          <param name="dotNetCoverage.NCover.platformVersion" value="v2.0" />
+          <param name="dotNetCoverage.NCover3.Reg" value="selected" />
+          <param name="dotNetCoverage.NCover3.args" value="//ias .*" />
+          <param name="dotNetCoverage.NCover3.platformBitness" value="x86" />
+          <param name="dotNetCoverage.NCover3.platformVersion" value="v2.0" />
+          <param name="dotNetCoverage.NCover3.reporter.executable.args" value="//or FullCoverageReport:Html:{teamcity.report.path}" />
+          <param name="dotNetCoverage.PartCover.Reg" value="selected" />
+          <param name="dotNetCoverage.PartCover.includes" value="[*]*" />
+          <param name="dotNetCoverage.PartCover.platformBitness" value="x86" />
+          <param name="dotNetCoverage.PartCover.platformVersion" value="v2.0" />
+          <param name="dotNetTestRunner.Type" value="NUnit" />
+          <param name="nunit_app_config_file" value="VoomTo.Hosts.Tests/bin/Debug/nunit.config" />
+          <param name="nunit_command_line" value="--teamcity --trace=verbose" />
+          <param name="nunit_enabled" value="checked" />
+          <param name="nunit_environment" value="auto" />
+          <param name="nunit_exclude" value="**\obj\**\*.Tests.dll" />
+          <param name="nunit_include" value="**\*.Tests.dll" />
+          <param name="nunit_path" value="packages\%NUnitConsoleRunnerVersion%\tools\nunit3-console.exe" />
+          <param name="nunit_platform" value="MSIL" />
+          <param name="nunit_version" value="NUnit-3.0.0" />
+          <param name="teamcity.step.mode" value="default" />
+          <param name="teamcity.tests.runRiskGroupTestsFirst" value="recentlyFailed" />
+        </parameters>
+      </runner>
+    </build-runners>
+    <vcs-settings>
+      <vcs-entry-ref root-id="VoomBoomProjects_HttpsVoomboomVisualstudioComDefaultCollectionVoomTo_2">
+        <checkout-rule rule="+:.build =&gt; .build" />
+        <checkout-rule rule="+:Source/Main =&gt; ." />
+      </vcs-entry-ref>
+    </vcs-settings>
+    <requirements />
+    <build-triggers>
+      <build-trigger id="TRIGGER_2" type="buildDependencyTrigger">
+        <parameters>
+          <param name="afterSuccessfulBuildOnly" value="true" />
+          <param name="dependsOn" value="VoomBoomProjects_VoomTo_Build" />
+        </parameters>
+      </build-trigger>
+    </build-triggers>
+    <dependencies>
+      <depend-on sourceBuildTypeId="VoomBoomProjects_VoomTo_Build">
+        <options>
+          <option name="run-build-on-the-same-agent" value="true" />
+        </options>
+      </depend-on>
+    </dependencies>
+    <cleanup />
+  </settings>
+</build-type>
+
